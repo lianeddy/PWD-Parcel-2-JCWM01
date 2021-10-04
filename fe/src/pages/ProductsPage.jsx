@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
+import axios from 'axios';
 import { Link } from "react-router-dom";
-import { fetchProducts } from "../redux/actions/productsAction";
+import {API_URL} from '../constants/API'
 import '../assets/styles/productsPage.css'
 import CardProduct from '../components/CardProduct';
 
+
 class ProductsPage extends Component {
+    state = {
+        productsList: []
+    }
+
+    fetchProducts = () => {
+        axios.get(`${API_URL}/products/get`)
+            .then((res) => {
+                this.setState({productsList: res.data})
+            })
+            .catch((err) => {
+                console.log(`ERROR Fetch Products ${err}`);
+            })
+    }
 
     renderProducts = () => {
-        return this.props.productsGlobal.productList.map((product, index) => {
+        return this.state.productsList.map((product, index) => {
             return (
                 <div key={index}>
                     <Link style={{ textDecoration: "none", color: "inherit" }}
@@ -26,7 +40,7 @@ class ProductsPage extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchProducts();
+        this.fetchProducts();
     }
 
     render() {
@@ -46,14 +60,4 @@ class ProductsPage extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-      productsGlobal: state.products,
-    };
-};
-
-const mapDispatchToProps = {
-    fetchProducts,
-  };
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsPage);
+export default ProductsPage;
