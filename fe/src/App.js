@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import ItemsPage from './pages/ItemsPage';
 import ProductsPage from './pages/ProductsPage';
+import DetailItemPage from './pages/DetailItemPage';
 
 class App extends Component {
   render() {
@@ -10,7 +11,8 @@ class App extends Component {
      <BrowserRouter>
       <Switch>
         <Route component={ProductsPage} path="/products" />
-        <Route component={ItemsPage} path="/items/:index" />
+        <Route component={ItemsPage} path="/items/:id" />
+        <Route component={DetailItemPage} path="/detail/:id" />
       </Switch>
      </BrowserRouter>
     )

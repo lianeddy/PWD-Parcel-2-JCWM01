@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import '../assets/styles/cardItem.css'
 
@@ -13,7 +14,12 @@ class CardItems extends Component {
                 </div>
         <div className="mt-2">
           <div>
+          <Link
+              style={{color: "inherit" }}
+              to={`/detail/${this.props.id}`}
+            >
               <h6>{this.props.itemName}</h6>
+            </Link>
             <span className="text-muted">
             <i class="fas fa-tags"></i> {this.props.category}
             </span>

@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { Component } from 'react'
+import axios from 'axios';
 import {API_URL} from '../constants/API'
 import '../assets/styles/itemsPage.css'
 import CardItems from '../components/CardItems';
@@ -28,6 +28,7 @@ class ItemsPage extends Component {
                             image={item.image}
                             itemName={item.name_item}
                             category={item.name_category}
+                            id={item.id_item}
                         />
                 </div>
             )
@@ -63,7 +64,7 @@ class ItemsPage extends Component {
     fetchProduct = () => {
         axios.get(`${API_URL}/products/get`, {
             params: {
-                id: this.props.match.params.index
+                id: this.props.match.params.id
             },
         })
         .then((result) => {
