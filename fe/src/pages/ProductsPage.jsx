@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
 import '../assets/styles/productPage.css'
 import ProductCard from '../components/ProductCard'
 import Navbarku from '../components/Navbarku'
 import Headerku from '../components/Headerku'
+
+
 const ProductsPage = () => {
     const [productList, setProductList] = useState([]);
 
@@ -46,9 +49,11 @@ const ProductsPage = () => {
                     title="Parcel Istimewa" 
                     description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptatum excepturi ducimus saepe, odit nesciunt harum neque aperiam repellat earum vitae modi autem officia itaque, nisi sit cumque, reiciendis veniam."
                 />
+            <Fade bottom cascade>
             <div className="cards-container">
                 {renderProducts()}
             </div>
+            </Fade>
         </div>
     )
 }
