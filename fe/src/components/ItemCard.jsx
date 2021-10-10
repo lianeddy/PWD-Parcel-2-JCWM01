@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import '../assets/styles/itemCard.css'
 
 function ItemCard(props) {
@@ -13,12 +12,7 @@ function ItemCard(props) {
             </div>
           <div >
             <div className="body d-flex flex-row justify-content-between">
-              <Link
-                style={{color: "inherit" }}
-                to={`/detail/${props.id}`}
-              >
                 <p>{props.itemName}</p>
-              </Link>
               <button>
                 +
               </button>
