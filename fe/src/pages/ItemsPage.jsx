@@ -4,20 +4,27 @@ import axios from 'axios'
 import {API_URL} from '../constants/API'
 import '../assets/styles/itemPage.css'
 import ItemCard from '../components/ItemCard'
+import Navbarku from '../components/Navbarku'
+import Headerku from '../components/Headerku'
 
 function ItemsPage(props) {
     const [listItem, setListItem] = useState([])
     const [product, setProduct] = useState({})
     const [category, setCategory] = useState([])
+    const [totalPage, setTotalPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
 
     const fetchItems = () => {
         axios.get(`${API_URL}/items`, {
             params: {
+                page: currentPage,
                 id_product: props.match.params.id
             }
         })
             .then((res) => {
+                console.log(res.data);
                 console.log(res.data.data)
+                setTotalPage(res.data.total_page)
                 setListItem(res.data.data)
             })
             .catch((err) => {
@@ -59,89 +66,121 @@ function ItemsPage(props) {
     const renderLimit = () => {
         return category.map((cat, index) => {
             return (
-                <div key={index}>
-                    <p>{cat.name} : {cat.limit}</p>
-                </div>
+                <li key={index}>
+                    <p>{cat.limit} {cat.name}</p>
+                </li>
             )
         })
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1)
+    }
+
+    const previousPage = () => {
+        setCurrentPage(currentPage - 1)
     }
 
     useEffect(() => {
         fetchItems()
         fetchProductsDetail()
-    }, [])
+    }, [currentPage])
 
     return (
-        <div style={{backgroundColor: "#F4CBDD"}}>
-            <div className="page-item-title" style={{paddingBottom: "200px"}}>
-                <div className="container text-light">
-                    <h2 className="text-center">Parcel Istimewa</h2>
-                    <p className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptatum excepturi ducimus saepe, odit nesciunt harum neque aperiam repellat earum vitae modi autem officia itaque, nisi sit cumque, reiciendis veniam.</p>
-                </div>
-            </div>
-            <div className="cards-items-container" style={{marginTop: "-130px"}}>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-3">
-                        <div className="selectedItemList">
-                            <p>Product : {product.name}</p>
-                            <p>Price : {product.price}</p>
-                            <p>Jumlah item yang dapat dibeli</p>
+        <div style={{backgroundColor: "#E5E5E5"}}>
+            <Navbarku />
+            <Headerku 
+                title={product.name}    
+                description={product.description}
+            />
+            <div className="container d-flex flex-row">
+                <div className="col-3">
+                    <div className="item-selected">
+                        <p className="product-price">Rp. {product.price}</p>
+                        <p className="list-title">Product yang dapat dipilih</p>
+                        <ul className="limit">
                             {renderLimit()}
-                            <p className="text-center">item dipilih</p>
-
+                        </ul>
+                        <p className="list-title">Product yang dipilih</p>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
                         </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
                         </div>
-                        <div className="col-9">
-                            <div className="d-flex flex-row justify-content-between filter-sort ">
-                                <div className="fiter-name">
-                                    <div className="input-group mb-2 mr-sm-2">
-                                        <div className="input-group-prepend">
-                                        <div className="input-group-text"><i className="fa fa-search" aria-hidden="true"></i></div>
-                                        </div>
-                                        <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Cari yang kamu mau"/>
-                                    </div>
-                                </div>
-                                <div className="col-auto">
-                                    <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                        <option selected>Pilih Kategori</option>
-                                        <option value="cokelat">Cokelat</option>
-                                        <option value="snack">Snack</option>
-                                        <option value="minuman">Minuman</option>
-                                    </select>
-                                </div>
-                                <div className="sorting">
-                                <div className="col-auto">
-                                    <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                        <option selected>Urutkan</option>
-                                        <option value="az">A-Z</option>
-                                        <option value="za">Z-A</option>
-                                    </select>
-                                </div>
-                                </div>
-                            </div>
-                            <div className="d-flex flex-wrap flex-row justify-content-between">
-                                {renderItems()}
-                            </div>
-                            <div className="d-flex flex-row justify-content-center mt-2">
-                                <div className="page">
-                                        <button
-                                            className="btn-page"
-                                        >
-                                            {'<'}
-                                        </button>Page <span>1</span> of <span>5</span> {" "}
-                                        <button
-                                            className="btn-page"
-                                        >
-                                            {'>'}
-                                        </button>
-                                </div>
-                            </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <button>Tambah ke keranjang</button>
+                    </div>
+                </div>
+                <div className="col-9">
+                    <div className="filter-sort d-flex flex-row justify-content-between">
+                        <div className="filter-name">
+                            <input 
+                                type="text" 
+                                name="filterName" 
+                                id="filterName" 
+                                placeholder="Cari yang kamu mau"
+                            />
+                            <button className="search">
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div className="filter-category">
+                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected>Pilih Kategori</option>
+                                <option value="cokelat">Cokelat</option>
+                                <option value="snack">Snack</option>
+                                <option value="minuman">Minuman</option>
+                            </select>
+                        </div>
+                        <div className="sorting">
+                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected>Urutkan</option>
+                                <option value="az">A-Z</option>
+                                <option value="za">Z-A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="d-flex flex-wrap flex-row justify-content-center">
+                        {renderItems()}
+                    </div>
+                    <div className="d-flex flex-row justify-content-center">
+                        <div className="page-info d-flex flex-row justify-content-center">
+                            <button 
+                                onClick={previousPage}
+                                disabled={currentPage === 1 ? true : false}    
+                            >
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <p><span>{currentPage}</span> of <span>{totalPage}</span></p>
+                            <button 
+                                onClick={nextPage}
+                                disabled={currentPage === totalPage ? true : false} 
+                            >
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     )
 }
 

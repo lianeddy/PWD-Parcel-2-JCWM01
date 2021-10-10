@@ -1,5 +1,8 @@
 .item-card {
-    padding: 16px;
+    width: 250px;
+    height: 270px;
+    background-color: #FFFFFF;
+    padding: 15px;
     border-radius: 8px;
     transition: all ease 150ms;
     box-sizing: border-box;
@@ -16,24 +19,53 @@
     /* transform: scale(1.03); */
   }
   
-  .item-card img {
+  .image {
+    height: 170px;
+    width: 210px;
+    margin: 0px;
+  }
+
+  .image img {
     object-fit: contain;
     height: 150px;
-    width: 150px;
+    width: 210px;
   }
 
-  .btn-pilih {
-      width: 50px;
-      height: 24px;
-      border-radius: 8px;
-      background-color: #F4CBDD;
-      border-color: #F4CBDD;
-      line-height: normal;
-      font-size: 15px;
+  .item-cat {
+    background-color: #D4006A;
+    color: #FFFFFF;
+    width: 70px;
   }
 
-  .btn-pilih:hover {
-      background-color: #FFFFFF;
-      color: #A91B60;
+  .item-card .body {
+    width: 210px;
+    height: 55px;
+    padding: 5px;
+    background-color: #F4CBDD80;
+    border-radius: 4px;
   }
-  
+
+  .item-card .body p{
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+
+  .item-card .body button{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin-top: -26px;
+    margin-right: 5px;
+    background-color: #D4006A;
+    border: none;
+    color: #FFFFFF;
+  }
+
+  .item-card .body button:active{
+    background-color: #FFFFFF;
+    color: #A91B60;
+  }
