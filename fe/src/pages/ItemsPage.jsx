@@ -1,30 +1,58 @@
-import React, { Component } from 'react'
-import axios from 'axios';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 import {API_URL} from '../constants/API'
-import '../assets/styles/itemsPage.css'
-import CardItems from '../components/CardItems';
+import '../assets/styles/itemPage.css'
+import ItemCard from '../components/ItemCard'
+import Navbarku from '../components/Navbarku'
+import Headerku from '../components/Headerku'
 
-class ItemsPage extends Component {
-    state = {
-        itemsList: [],
-        page: 1,
-        maxPage: 0,
-        itemPerPage: 6,
-        product: {},
+function ItemsPage(props) {
+    const [listItem, setListItem] = useState([])
+    const [product, setProduct] = useState({})
+    const [category, setCategory] = useState([])
+    const [totalPage, setTotalPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const fetchItems = () => {
+        axios.get(`${API_URL}/items`, {
+            params: {
+                page: currentPage,
+                id_product: props.match.params.id
+            }
+        })
+            .then((res) => {
+                console.log(res.data);
+                console.log(res.data.data)
+                setTotalPage(res.data.total_page)
+                setListItem(res.data.data)
+            })
+            .catch((err) => {
+                console.log(`Error fetch Item: ${err}`)
+            })
     }
 
-    renderItems = () => {
-        const beginningIndex = (this.state.page - 1) * this.state.itemPerPage;
+    const fetchProductsDetail = () => {
+        axios.get(`${API_URL}/products`, {
+            params: {
+                id: props.match.params.id
+            }
+        })
+        .then((res) => {
+            console.log(res.data)
+            setProduct(res.data)
+            setCategory(res.data.category)
+        })
+        .catch((err) => {
+            console.log(`Error fetch Products : ${err}`)
+        })  
+    }
 
-        const currentData = this.state.itemsList.slice(
-            beginningIndex,
-            beginningIndex + this.state.itemPerPage
-          );
-
-        return currentData.map((item, index) => {
+    const renderItems = () => {
+        return listItem.map((item, index) => {
             return (
                 <div key={index}>
-                        <CardItems 
+                        <ItemCard 
                             image={item.image}
                             itemName={item.name_item}
                             category={item.name_category}
@@ -35,141 +63,125 @@ class ItemsPage extends Component {
         })
     }
 
-    nextPagehandler = () => {
-        if (this.state.page < this.state.maxPage) {
-          this.setState({ page: this.state.page + 1 });
-        }
-      };
-    
-      prevPagehandler = () => {
-        if (this.state.page > 1) {
-          this.setState({ page: this.state.page - 1 });
-        }
-      };
-
-    fetchItems = () => {
-        axios.get(`${API_URL}/items/get`)
-        .then((res) => {
-            this.setState({
-                itemsList: res.data,
-                maxPage: Math.ceil(res.data.length / this.state.itemPerPage),
-                filteredProductList: res.data,
-            })
-        })
-        .catch((err) => {
-            console.log(`ERROR Fetch Items : ${err}`);
+    const renderLimit = () => {
+        return category.map((cat, index) => {
+            return (
+                <li key={index}>
+                    <p>{cat.limit} {cat.name}</p>
+                </li>
+            )
         })
     }
 
-    fetchProduct = () => {
-        axios.get(`${API_URL}/products/get`, {
-            params: {
-                id: this.props.match.params.id
-            },
-        })
-        .then((result) => {
-            console.log(result.data[0]);
-            this.setState({product: result.data[0]})
-        })
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1)
     }
 
-    componentDidMount(){
-        console.log(this.props.match.params.index);
-        this.fetchItems();
-        this.fetchProduct();
+    const previousPage = () => {
+        setCurrentPage(currentPage - 1)
     }
 
-    render() {
-        return (
-            <div style={{backgroundColor: "#F4CBDD"}}>
-              <div className="page-item-title" style={{paddingBottom: "200px"}}>
-                    <div className="container text-light">
-                        <h2 className="text-center">Parcel Istimewa</h2>
-                        <p className="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptatum excepturi ducimus saepe, odit nesciunt harum neque aperiam repellat earum vitae modi autem officia itaque, nisi sit cumque, reiciendis veniam.</p>
+    useEffect(() => {
+        fetchItems()
+        fetchProductsDetail()
+    }, [currentPage])
+
+    return (
+        <div style={{backgroundColor: "#E5E5E5"}}>
+            <Navbarku />
+            <Headerku 
+                title={product.name}    
+                description={product.description}
+            />
+            <div className="container d-flex flex-row">
+                <div className="col-3">
+                    <div className="item-selected">
+                        <p className="product-price">Rp. {product.price}</p>
+                        <p className="list-title">Product yang dapat dipilih</p>
+                        <ul className="limit">
+                            {renderLimit()}
+                        </ul>
+                        <p className="list-title">Product yang dipilih</p>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <div className="selected">
+                            <p>Dairy Milk</p>
+                            <p>3</p>
+                        </div>
+                        <button>Tambah ke keranjang</button>
                     </div>
                 </div>
-                <div className="cards-items-container" style={{marginTop: "-130px"}}>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-3">
-                            <div className="cardProduct">
-                                <div className="cardProduct-head">
-                                    <img 
-                                        src={this.state.product.image}
-                                        alt={this.state.product.name_product}
-                                        />
-                                </div>
-                                <div className="cardProduct-body">
-                                    <h5>{this.state.product.name_product}</h5>
-                                    <p>Rp. {this.state.product.price_product}</p>
-                                    <p>{this.state.product.description}</p>
-                                </div>
-                            </div>
-                            </div>
-                            <div className="col-7">
-                                <div className="d-flex flex-row justify-content-between filter-sort ">
-                                    <div className="fiter-name">
-                                        <div className="input-group mb-2 mr-sm-2">
-                                            <div className="input-group-prepend">
-                                            <div className="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></div>
-                                            </div>
-                                            <input type="text" className="form-control" id="inlineFormInputGroupUsername2" placeholder="Cari yang kamu mau"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-auto">
-                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                            <option selected>Pilih Kategori</option>
-                                            <option value="cokelat">Cokelat</option>
-                                            <option value="snack">Snack</option>
-                                            <option value="minuman">Minuman</option>
-                                        </select>
-                                    </div>
-                                    <div className="sorting">
-                                    <div className="col-auto">
-                                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                            <option selected>Urutkan</option>
-                                            <option value="az">A-Z</option>
-                                            <option value="za">Z-A</option>
-                                        </select>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex flex-wrap flex-row">
-                                    {this.renderItems()}
-                                </div>
-                               <div className="d-flex flex-row justify-content-center mt-2">
-                                    <div className="page">
-                                            <button
-                                                disabled={this.state.page === 1}
-                                                onClick={this.prevPagehandler}
-                                                className="btn-page"
-                                            >
-                                                {'<'}
-                                            </button>
-                                            {" "}Page <span>{this.state.page}</span> of <span>{this.state.maxPage}</span> {" "}
-                                            <button
-                                                disabled={this.state.page === this.state.maxPage}
-                                                onClick={this.nextPagehandler}
-                                                className="btn-page"
-                                            >
-                                                {'>'}
-                                            </button>
-                                    </div>
-                               </div>
-                            </div>
-                            <div className="col-2">
-                                <div className="selectedItemList">
-                                <p className="text-center">item dipilih</p>
-                            </div>
-                            </div>
+                <div className="col-9">
+                    <div className="filter-sort d-flex flex-row justify-content-between">
+                        <div className="filter-name">
+                            <input 
+                                type="text" 
+                                name="filterName" 
+                                id="filterName" 
+                                placeholder="Cari yang kamu mau"
+                            />
+                            <button className="search">
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div className="filter-category">
+                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected>Pilih Kategori</option>
+                                <option value="cokelat">Cokelat</option>
+                                <option value="snack">Snack</option>
+                                <option value="minuman">Minuman</option>
+                            </select>
+                        </div>
+                        <div className="sorting">
+                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected>Urutkan</option>
+                                <option value="az">A-Z</option>
+                                <option value="za">Z-A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="d-flex flex-wrap flex-row justify-content-center">
+                        {renderItems()}
+                    </div>
+                    <div className="d-flex flex-row justify-content-center">
+                        <div className="page-info d-flex flex-row justify-content-center">
+                            <button 
+                                onClick={previousPage}
+                                disabled={currentPage === 1 ? true : false}    
+                            >
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+                            <p><span>{currentPage}</span> of <span>{totalPage}</span></p>
+                            <button 
+                                onClick={nextPage}
+                                disabled={currentPage === totalPage ? true : false} 
+                            >
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
-                </div>
-        )
-    }
+            </div>
+        </div>
+    )
 }
 
-
-
-export default ItemsPage;
+export default ItemsPage

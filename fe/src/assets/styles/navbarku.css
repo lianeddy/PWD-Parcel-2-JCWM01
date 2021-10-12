@@ -1,0 +1,53 @@
+.navbar {
+    background-color: #FFFFFF;
+    height: 60px;
+    overflow: hidden;
+}
+
+.navbar .container{
+    display: flex;
+    flex-direction: row;
+    background-color: #FFFFFF;
+  }
+  
+  .brand {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+  
+  .brand img{
+    width: 22px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  
+  .brand p{
+    color: #293241;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .nav-right {
+    display: flex;
+    flex-direction: row;
+    vertical-align: top;
+  }
+  
+  .cart{
+    width: 22px;
+    height: 22px;
+    margin-top: 10px;
+  }
+  
+  .foto{
+    width: 42px;
+    height: 42px;
+    margin-bottom: 20px;
+  }
+
+  .nav-right .badge{
+    height: 20px;
+    background-color: #D4006A;
+  }
