@@ -1,0 +1,17 @@
+
+.title{
+    text-align: center;
+    color: #293241;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+  
+  .title h2 {
+    font-weight: 600;
+  }
+  
+  .title p {
+    font-size: 13px;
+    font-weight: 400;
+  }

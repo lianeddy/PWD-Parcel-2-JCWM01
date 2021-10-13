@@ -1,0 +1,18 @@
+ 
+ .cards-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    border-radius: 16px;
+  }
+  
+  .cards-container .cardProducts {
+    margin: 24px 16px;
+  }
+
+  .cards-container .card {
+    margin: 24px 16px;
+  }
