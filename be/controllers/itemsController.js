@@ -1,11 +1,11 @@
 const { db } = require('../database')
 const { responses } = require('../helper/responses')
 
-const limit = 6
+const limit = 9
 
 module.exports = {
     getData: (req, res) => {
-        let {page, category, name, id: idItem, id_product: idProduct} = req.query
+        let {page, name, id: idItem, id_product: idProduct, id_category: category} = req.query
         let response
         let limitQuery = ''
         let countLength = 0
@@ -114,31 +114,6 @@ module.exports = {
                 countLength = Math.round(results[0].count/limit)
             })
         }
-
-        if (parsePage && idProduct && name) {
-            let concateName = '%' + name + '%'
-            let countPage = `select count(*) as count from items i
-            join categories c 
-                on i.id_category = c.id_category
-            join stocks s
-                on i.id_stock = s.id_stock
-            join limit_item l 
-                on c.id_category = l.id_category
-            join products p 
-                on l.id_product = p.id_product
-            where p.id_product= ${db.escape(idProduct)} and i.name_item like '${concateName}';`
-
-            db.query(countPage, (err, results) => {
-                if (err) {
-                    response = responses("Unable get pagination!", 500, err)
-                    res.status(500).send(response)
-                }
-    
-                countLength = Math.round(results[0].count/limit)
-            })
-        }
-
-        
         
         db.query(scriptQuery, (err, results) => {
             if (err) {
