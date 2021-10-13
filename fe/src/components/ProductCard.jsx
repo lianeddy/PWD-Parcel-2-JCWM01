@@ -2,6 +2,7 @@ import React from 'react'
 import '../assets/styles/productCard.css'
 import next from '../assets/images/next.png'
 import { Link } from 'react-router-dom'
+import IDR from '../helper/currency'
 
 function ProductCard(props) {
     return (
@@ -16,7 +17,7 @@ function ProductCard(props) {
                     <h4>{props.title}</h4>
                     <p>{props.description}</p>
                     <div>
-                        <h5>Rp. {props.price}</h5>
+                        <h5>{IDR(props.price)}</h5>
                     <Link style={{ textDecoration: "none", color: "inherit" }}
                         to={`/items/${props.id}`}>
                         <button className="next">

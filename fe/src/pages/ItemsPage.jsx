@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
 import '../assets/styles/itemPage.css'
+import IDR from '../helper/currency'
 import ItemCard from '../components/ItemCard'
 import Navbarku from '../components/Navbarku'
 import Headerku from '../components/Headerku'
@@ -56,6 +58,8 @@ function ItemsPage(props) {
                             image={item.image}
                             itemName={item.name_item}
                             category={item.name_category}
+                            price={item.price_item}
+                            description={item.description}
                             id={item.id_item}
                         />
                 </div>
@@ -96,7 +100,7 @@ function ItemsPage(props) {
             <div className="container d-flex flex-row">
                 <div className="col-3">
                     <div className="item-selected">
-                        <p className="product-price">Rp. {product.price}</p>
+                        <p className="product-price">{IDR(product.price)}</p>
                         <p className="list-title">Product yang dapat dipilih</p>
                         <ul className="limit">
                             {renderLimit()}
@@ -158,9 +162,11 @@ function ItemsPage(props) {
                             </select>
                         </div>
                     </div>
+                    <Fade bottom cascade>
                     <div className="d-flex flex-wrap flex-row justify-content-center">
                         {renderItems()}
                     </div>
+                    </Fade>
                     <div className="d-flex flex-row justify-content-center">
                         <div className="page-info d-flex flex-row justify-content-center">
                             <button 
