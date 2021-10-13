@@ -6,6 +6,7 @@ import ItemsPage from "./pages/ItemsPage";
 import ProductsPage from "./pages/ProductsPage";
 import DetailItemPage from "./pages/DetailItemPage";
 
+import Register from "./pages/Auth/Register/Register";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ function App() {
         <Route component={DetailItemPage} path="/detail/:id" />
         <Route component={ProductsPage} path="/products" />
         <Route component={ItemsPage} path="/items/:id" />
+        <Route exact component={Register} path="/register" />
       </Switch>
     </BrowserRouter>
   );
