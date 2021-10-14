@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%', 
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -59,7 +59,6 @@ const Login = () => {
                         } else {
                             const { token } = res.data;
                             localStorage.setItem("token", token);
-                            // Decode token to get user data
                             const decoded = jwt_decode(token);
                             localStorage.setItem("email", decoded.email);
                             history.push("/");
@@ -77,14 +76,6 @@ const Login = () => {
             .catch(err => {
                 alert(err);
             })
-
-
-        // console.log(input);
-        // if (input.email === 'dwi@gmail.com' && input.password === '123') {
-        //     localStorage.setItem("15emailcek", input.email);
-        // } else {
-        //     setauthlogin(true);
-        // }
     }
 
     const handleChange = (event) => {
