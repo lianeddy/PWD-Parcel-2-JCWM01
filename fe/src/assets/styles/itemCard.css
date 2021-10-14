@@ -1,6 +1,6 @@
 .item-card {
     width: 250px;
-    height: 270px;
+    height: 315px;
     background-color: #FFFFFF;
     padding: 15px;
     border-radius: 8px;
@@ -39,19 +39,12 @@
 
   .item-card .body {
     width: 210px;
-    height: 55px;
+    height: 100px;
     padding: 5px;
     background-color: #F4CBDD80;
     border-radius: 4px;
   }
 
-  .item-card .body p{
-    font-size: 24px;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    margin-top: 5px;
-    margin-left: 10px;
-  }
 
   .item-card .body .add{
     width: 40px;
@@ -74,6 +67,27 @@
     border: none;
     background-color: transparent;
   }
+
+.nameItem {
+  margin-bottom: 2px;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.fa-tags {
+  font-size: 10px;
+}
+
+.priceItem {
+  font-size: 18px;
+  font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 5px;
+  margin-left: 15px;
+}
 
 .close-modal {
   background-color: transparent;

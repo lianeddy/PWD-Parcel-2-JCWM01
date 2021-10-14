@@ -25,12 +25,15 @@ function ItemCard(props) {
             </div>
           <div >
             <div className="body d-flex flex-row justify-content-between">
-              <button 
-                className="btn-modal"
-                onClick={() => openModal(props)}
-              >
-                <p>{props.itemName}</p>
-              </button>
+              <div>
+                <button 
+                  className="btn-modal"
+                  onClick={() => openModal(props)}
+                >
+                  <p className="nameItem">{props.itemName}</p>
+                </button>
+                <p className="priceItem">{IDR(props.price)}</p>
+              </div>
               <button className="add">
                 +
               </button>
