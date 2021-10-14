@@ -45,9 +45,9 @@ module.exports = {
                                     },
                                     (err, token) => {
                                         var mailOption = {
-                                            from: 'wiwagus15@gmail.com',
+                                            from: 'halo.parselio@gmail.com',
                                             to: req.body.email,
-                                            subject: 'contoh aja pak',
+                                            subject: 'verifikasi akun',
                                             html: `silahkan aktivasi akun melalui halaman <a href="http://localhost:3000/verifikasi/${token}">ini</a>`
                                         }
 
@@ -67,6 +67,39 @@ module.exports = {
                 });
             }
         })
+    },
+    login: (req, res) => {
+        let scriptQuery = `select * from users where email = '${req.body.email}';`
 
-    }
+        db.query(scriptQuery, (err, results) => {
+            if (results.length === 0) {
+                return res.status(200).send("notfound");
+            }
+            if (results[0].isverified === 0) {
+                return res.status(200).send("notactive");
+            }
+            bcrypt.compare(req.body.password, results[0].password).then((isMatch) => {
+                if (isMatch) {
+                    var payload = {
+                        email: req.body.email,
+                    }
+                    jwt.sign(
+                        payload,
+                        "secret",
+                        {
+                            expiresIn: 31556926, 
+                        },
+                        (err, token) => {
+                            res.json({
+                                success: true,
+                                token: "Bearer " + token,
+                            });
+                        }
+                    );
+                } else {
+                    return res.status(200).send("notmatch");
+                }
+            })
+        })
+    },
 }
