@@ -11,7 +11,7 @@ function Navbarku() {
             <navbar className="container">
                     <div className="brand">
                         <img src={logo} alt="logo" />
-                        <p>e-parcel</p>
+                        <p>parcelio</p>
                     </div>
                     <div className="nav-right">
                         <img className="cart" src={cart} alt="cart" />

@@ -15,23 +15,53 @@ function ItemsPage(props) {
     const [category, setCategory] = useState([])
     const [totalPage, setTotalPage] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
+    const [filterName, setFilterName] = useState("")
+    const [filterSort, setFilterSort] = useState({
+        filterCategory: "",
+        sortBy: "",
+    })
+
+    const inputSearchName = (e) => {
+        setFilterName(e.target.value)
+    }
+
+    const inputHandler = (e) => {
+        let name = e.target.name
+        let value = e.target.value
+        setFilterSort({...filterSort, [name] : value})
+    }
 
     const fetchItems = () => {
-        axios.get(`${API_URL}/items`, {
-            params: {
-                page: currentPage,
-                id_product: props.match.params.id
-            }
-        })
+        if (filterName === "") {
+            axios.get(`${API_URL}/items`, {
+                params: {
+                    page: currentPage,
+                    id_product: props.match.params.id,
+                    id_category: filterSort.filterCategory
+                }
+            })
             .then((res) => {
-                console.log(res.data);
-                console.log(res.data.data)
-                setTotalPage(res.data.total_page)
                 setListItem(res.data.data)
+                setTotalPage(res.data.total_page)
             })
             .catch((err) => {
                 console.log(`Error fetch Item: ${err}`)
             })
+        } else {
+            axios.get(`${API_URL}/items`, {
+                params: {
+                    id_product: props.match.params.id,
+                    name: filterName
+                }
+            })
+            .then((res) => {
+                setListItem(res.data.data)
+                setTotalPage(1)
+            })
+            .catch((err) => {
+                console.log(`Error fetch Item: ${err}`)
+            })
+        }
     }
 
     const fetchProductsDetail = () => {
@@ -88,7 +118,7 @@ function ItemsPage(props) {
     useEffect(() => {
         fetchItems()
         fetchProductsDetail()
-    }, [currentPage])
+    }, [currentPage, filterSort, filterName])
 
     return (
         <div style={{backgroundColor: "#E5E5E5"}}>
@@ -141,24 +171,38 @@ function ItemsPage(props) {
                                 name="filterName" 
                                 id="filterName" 
                                 placeholder="Cari yang kamu mau"
+                                onChange={inputSearchName}
                             />
-                            <button className="search">
+                            <button 
+                                className="search"
+                                disabled="true">
                             <i className="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div className="filter-category">
-                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                <option selected>Pilih Kategori</option>
-                                <option value="cokelat">Cokelat</option>
-                                <option value="snack">Snack</option>
-                                <option value="minuman">Minuman</option>
+                            <select 
+                                className="custom-select mr-sm-2" 
+                                id="inlineFormCustomSelect"
+                                name="filterCategory"
+                                onChange={inputHandler}>
+                                <option value="" selected>Pilih Kategori</option>
+                                <option value="1">Cokelat</option>
+                                <option value="2">Snack</option>
+                                <option value="3">Minuman</option>
+                                <option value="">Semua</option>
                             </select>
                         </div>
                         <div className="sorting">
-                            <select className="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                <option selected>Urutkan</option>
+                            <select 
+                                className="custom-select mr-sm-2" 
+                                id="inlineFormCustomSelect"
+                                name="sortBy"
+                                onChange={inputHandler}>
+                                <option value="" selected>Urutkan</option>
                                 <option value="az">A-Z</option>
                                 <option value="za">Z-A</option>
+                                <option value="rendah">Harga terendah</option>
+                                <option value="tinggi">Harga tertinggi</option>
                             </select>
                         </div>
                     </div>
@@ -167,23 +211,26 @@ function ItemsPage(props) {
                         {renderItems()}
                     </div>
                     </Fade>
-                    <div className="d-flex flex-row justify-content-center">
-                        <div className="page-info d-flex flex-row justify-content-center">
-                            <button 
-                                onClick={previousPage}
-                                disabled={currentPage === 1 ? true : false}    
-                            >
-                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                            </button>
-                            <p><span>{currentPage}</span> of <span>{totalPage}</span></p>
-                            <button 
-                                onClick={nextPage}
-                                disabled={currentPage === totalPage ? true : false} 
-                            >
-                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
+                    {filterName === "" 
+                        ? <div className="d-flex flex-row justify-content-center">
+                                <div className="page-info d-flex flex-row justify-content-center">
+                                    <button 
+                                        onClick={previousPage}
+                                        disabled={currentPage === 1 ? true : false}    
+                                    >
+                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <p><span>Page {currentPage}</span> of <span>{totalPage}</span></p>
+                                    <button 
+                                        onClick={nextPage}
+                                        disabled={currentPage === totalPage ? true : false} 
+                                    >
+                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        : null}
+                    
                 </div>
             </div>
         </div>
