@@ -8,5 +8,6 @@ routers.put('/verified', userController.verifikasi);
 routers.put('/reset', userController.reset);
 routers.post('/sharereset', userController.share);
 routers.put('/updateprofile', userController.updateProfile);
+routers.post('/getUser', userController.getUser);
 
 module.exports = routers

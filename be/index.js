@@ -7,7 +7,7 @@ const app = express()
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null, '../fe/public/images');
     },
     filename: (req, file, cb) => {
         cb(null, new Date().getTime() + '-' + file.originalname);

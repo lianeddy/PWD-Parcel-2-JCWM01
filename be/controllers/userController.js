@@ -1,6 +1,8 @@
 const { db } = require('../database')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -148,12 +150,22 @@ module.exports = {
         );
     },
     updateProfile: (req, res) => {
+        console.log(req.file.path);
         let scriptQuery = `update users set 
         fullname = '${req.body.fullname}',
         address = '${req.body.address}',
         gender = '${req.body.gender}',
         age = '${req.body.age}'
+        images = '${req.file.path}'
         where email = '${req.body.email}';`
+        db.query(scriptQuery, (err, results) => {
+            if (err) res.status(500).send(err)
+            res.status(200).send(results)
+        })
+        console.log("query success")
+    },
+    getUser: (req, res) => {
+        let scriptQuery = `select * from users where email = '${req.body.email}';`
         db.query(scriptQuery, (err, results) => {
             if (err) res.status(500).send(err)
             res.status(200).send(results)
