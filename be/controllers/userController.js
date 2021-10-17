@@ -146,5 +146,17 @@ module.exports = {
                 })
             }
         );
+    },
+    updateProfile: (req, res) => {
+        let scriptQuery = `update users set 
+        fullname = '${req.body.fullname}',
+        address = '${req.body.address}',
+        gender = '${req.body.gender}',
+        age = '${req.body.age}'
+        where email = '${req.body.email}';`
+        db.query(scriptQuery, (err, results) => {
+            if (err) res.status(500).send(err)
+            res.status(200).send(results)
+        })
     }
 }

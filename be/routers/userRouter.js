@@ -7,5 +7,6 @@ routers.post('/login', userController.login);
 routers.put('/verified', userController.verifikasi);
 routers.put('/reset', userController.reset);
 routers.post('/sharereset', userController.share);
+routers.put('/updateprofile', userController.updateProfile);
 
 module.exports = routers
