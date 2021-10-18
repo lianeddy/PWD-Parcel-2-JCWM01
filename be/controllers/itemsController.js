@@ -5,11 +5,24 @@ const limit = 9
 
 module.exports = {
     getData: (req, res) => {
-        let {page, name, id: idItem, id_product: idProduct, id_category: category} = req.query
+        let {page, name, sort, id: idItem, id_product: idProduct, id_category: category} = req.query
         let response
         let limitQuery = ''
         let countLength = 0
         let parsePage = Math.round(page)
+        let sortBy = ''
+
+        if (sort) {
+            if (sort == 'az') {
+                sortBy = `order by i.name_item asc`
+            } else if (sort == 'za') {
+                sortBy = `order by i.name_item desc`
+            } else if (sort == 'rendah') {
+                sortBy = `order by i.price_item asc`
+            } else if (sort == 'tinggi') {
+                sortBy = `order by i.price_item desc`
+            } 
+        }
         
         if (parsePage) {
             const offset = (parsePage - 1) * limit
@@ -41,8 +54,8 @@ module.exports = {
                     on c.id_category = l.id_category
                 join products p 
                     on l.id_product = p.id_product
-                where p.id_product= ${db.escape(idProduct)} ${limitQuery};`;
-    }
+                where p.id_product= ${db.escape(idProduct)} ${sortBy} ${limitQuery};`
+        }
 
         if (idProduct && category) {
             scriptQuery = `select i.id_item, i.name_item, i.price_item, c.name_category, s.amount as stock_item, l.quantity as limit_per_category, i.description, i.image from items i

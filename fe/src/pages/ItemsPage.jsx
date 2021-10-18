@@ -29,6 +29,7 @@ function ItemsPage(props) {
         let name = e.target.name
         let value = e.target.value
         setFilterSort({...filterSort, [name] : value})
+        console.log(filterSort.sortBy);
     }
 
     const fetchItems = () => {
@@ -37,7 +38,8 @@ function ItemsPage(props) {
                 params: {
                     page: currentPage,
                     id_product: props.match.params.id,
-                    id_category: filterSort.filterCategory
+                    id_category: filterSort.filterCategory,
+                    sort: filterSort.sortBy
                 }
             })
             .then((res) => {
@@ -85,12 +87,12 @@ function ItemsPage(props) {
             return (
                 <div key={index}>
                         <ItemCard 
+                            id={item.id_item}
                             image={item.image}
                             itemName={item.name_item}
                             category={item.name_category}
                             price={item.price_item}
                             description={item.description}
-                            id={item.id_item}
                         />
                 </div>
             )
