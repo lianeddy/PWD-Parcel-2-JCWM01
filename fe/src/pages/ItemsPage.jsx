@@ -1,15 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import axios from 'axios'
 import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
 import '../assets/styles/itemPage.css'
-import IDR from '../helper/currency'
 import ItemCard from '../components/ItemCard'
 import Navbarku from '../components/Navbarku'
 import Headerku from '../components/Headerku'
+import Cart from '../components/Cart';
 
 function ItemsPage(props) {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.data)
+    const [isChange, setIsChange] = useState(false)
     const [listItem, setListItem] = useState([])
     const [product, setProduct] = useState({})
     const [category, setCategory] = useState([])
@@ -20,6 +24,14 @@ function ItemsPage(props) {
         filterCategory: "",
         sortBy: "",
     })
+
+    // const limitCategory = () => {
+
+    // }
+
+    const change = () => {
+        setIsChange(!isChange)
+    }
 
     const inputSearchName = (e) => {
         setFilterName(e.target.value)
@@ -73,26 +85,57 @@ function ItemsPage(props) {
             }
         })
         .then((res) => {
-            console.log(res.data)
+            console.log(res.data.category)
             setProduct(res.data)
             setCategory(res.data.category)
+            dispatch({
+                type: "LIMIT_CATEGORY",
+                payload: res.data.category
+            })
         })
         .catch((err) => {
             console.log(`Error fetch Products : ${err}`)
         })  
     }
 
+    // const addLimitCart = (category, limit) => {
+    //     axios.get(`${API_URL}/cart/limit`, {
+    //         params: {
+    //             id_user: user.id_user,
+    //             id_product: props.match.params.id,
+    //             category: category,
+    //         }
+    //     })
+    //     .then((res) => {
+            // if (res.data.data.length < 1) {
+            //     axios.post(`${API_URL}/cart/addlimit`, {
+            //         id_user: user.id_user,
+            //         id_product: props.match.params.id,
+            //         category: category,
+            //         limit: limit
+            //     })
+            //     .then((res2) => {
+            //         console.log(res2);
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     })
+            // }
+        // })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     })
+    // }
+
     const renderItems = () => {
         return listItem.map((item, index) => {
             return (
                 <div key={index}>
                         <ItemCard 
-                            id={item.id_item}
-                            image={item.image}
-                            itemName={item.name_item}
-                            category={item.name_category}
-                            price={item.price_item}
-                            description={item.description}
+                            item={item}
+                            product={product}
+                            category={category}
+                            change={change}
                         />
                 </div>
             )
@@ -109,6 +152,41 @@ function ItemsPage(props) {
         })
     }
 
+    const fetchCart = () => {
+        axios.get(`${API_URL}/cart`, {
+            params: {
+                id_user: user.id_user,
+                id_product: props.match.params.id,
+                status: 'selected'
+            }
+        })
+        .then((res) => {
+            console.log("Cart:");
+            console.log(res.data.data);
+            dispatch({
+                type: "DATA_CART",
+                payload: res.data.data
+            })
+        })
+        .catch((err) => {
+            console.log(`Error get Cart: ${err}`);
+        })
+    }
+
+    const fetchStock = () => {
+        axios.get(`${API_URL}/items/stock`)
+        .then((res) => {
+            console.log(res.data.data);
+            dispatch({
+                type: "DATA_STOCK",
+                payload: res.data.data
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
     const nextPage = () => {
         setCurrentPage(currentPage + 1)
     }
@@ -120,7 +198,9 @@ function ItemsPage(props) {
     useEffect(() => {
         fetchItems()
         fetchProductsDetail()
-    }, [currentPage, filterSort, filterName])
+        fetchCart()
+        fetchStock()
+    }, [currentPage, filterSort, filterName, isChange])
 
     return (
         <div style={{backgroundColor: "#E5E5E5"}}>
@@ -131,39 +211,11 @@ function ItemsPage(props) {
             />
             <div className="container d-flex flex-row">
                 <div className="col-3">
-                    <div className="item-selected">
-                        <p className="product-price">{IDR(product.price)}</p>
-                        <p className="list-title">Product yang dapat dipilih</p>
-                        <ul className="limit">
-                            {renderLimit()}
-                        </ul>
-                        <p className="list-title">Product yang dipilih</p>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <div className="selected">
-                            <p>Dairy Milk</p>
-                            <p>3</p>
-                        </div>
-                        <button>Tambah ke keranjang</button>
-                    </div>
+                    <Cart
+                        product={product}
+                        render={renderLimit}
+                        change={change}  
+                    />
                 </div>
                 <div className="col-9">
                     <div className="filter-sort d-flex flex-row justify-content-between">

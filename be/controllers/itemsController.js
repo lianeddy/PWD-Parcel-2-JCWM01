@@ -54,7 +54,7 @@ module.exports = {
                     on c.id_category = l.id_category
                 join products p 
                     on l.id_product = p.id_product
-                where p.id_product= ${db.escape(idProduct)} ${sortBy} ${limitQuery};`
+                where p.id_product= ${db.escape(idProduct)} and s.amount > 0 ${sortBy} ${limitQuery};`
         }
 
         if (idProduct && category) {
@@ -67,7 +67,7 @@ module.exports = {
                     on c.id_category = l.id_category
                 join products p 
                     on l.id_product = p.id_product
-                where p.id_product= ${db.escape(idProduct)} and i.id_category = ${db.escape(category)} ${limitQuery};`
+                where p.id_product= ${db.escape(idProduct)} and i.id_category = ${db.escape(category)} and s.amount > 0 ${limitQuery};`
         }
 
         if (idProduct && name) {
@@ -81,7 +81,7 @@ module.exports = {
                     on c.id_category = l.id_category
                 join products p 
                     on l.id_product = p.id_product
-                where p.id_product= ${db.escape(idProduct)} and i.name_item like '${concateName}' ${limitQuery};`
+                where p.id_product= ${db.escape(idProduct)} and s.amount > 0  and i.name_item like '${concateName}' ${limitQuery};`
         }
 
         if (parsePage && idProduct) {
@@ -94,7 +94,7 @@ module.exports = {
                 on c.id_category = l.id_category
             join products p 
                 on l.id_product = p.id_product
-            where p.id_product= ${db.escape(idProduct)};`
+            where p.id_product= ${db.escape(idProduct)} and s.amount > 0 ;`
 
             db.query(countPage, (err, results) => {
                 if (err) {
@@ -116,7 +116,7 @@ module.exports = {
                 on c.id_category = l.id_category
             join products p 
                 on l.id_product = p.id_product
-            where p.id_product= ${db.escape(idProduct)} and i.id_category = ${db.escape(category)};`
+            where p.id_product= ${db.escape(idProduct)} and i.id_category = ${db.escape(category)} and s.amount > 0 ;`
 
             db.query(countPage, (err, results) => {
                 if (err) {
@@ -152,5 +152,18 @@ module.exports = {
             res.status(200).send(response)
         })
     },
-    
+    getStockItem: (req, res) => {
+        let response
+        let scriptQuery = `select id_item, amount from db_parcel.stocks;`
+
+        db.query(scriptQuery, (err, result) => {
+            if (err) {
+                response = responses("Error get data!", 500, err)
+                res.status(500).send(response)
+            }
+
+            response = responses("Success get data stock", 200, result)
+            res.status(200).send(response)
+        })
+    }
 }

@@ -1,6 +1,6 @@
 .item-card {
     width: 250px;
-    height: 315px;
+    height: 350px;
     background-color: #FFFFFF;
     padding: 15px;
     border-radius: 8px;
@@ -39,7 +39,7 @@
 
   .item-card .body {
     width: 210px;
-    height: 100px;
+    height: 135px;
     padding: 5px;
     background-color: #F4CBDD80;
     border-radius: 4px;
@@ -50,12 +50,15 @@
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    font-size: 20px;
+    font-size: 15px;
     margin-top: -26px;
     margin-right: 5px;
     background-color: #D4006A;
     border: none;
     color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .item-card .body .add:active{
@@ -114,3 +117,5 @@
     border: none;
     color: #FFFFFF;
   }
+
+  

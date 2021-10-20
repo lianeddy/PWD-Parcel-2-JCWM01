@@ -1,0 +1,19 @@
+.item-selected {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .item-selected .product-price {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 5px;
+  }
+  
+  .item-selected .list-title {
+    font-size: 13px;
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    color: #4A4E69;
+  }
