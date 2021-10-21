@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import axios from 'axios'
+import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
 import IDR from '../helper/currency'
 import '../assets/styles/cart.css'
@@ -65,7 +66,11 @@ function Cart(props) {
                 {props.render()}
             </ul>
             <p className="list-title">Product yang dipilih</p>
-            {renderCart()}
+            <Fade right cascade>
+                <div>
+                    {renderCart()}
+                </div>
+            </Fade>
             {cart.length 
                 ? <button className="addToCart">
                     Tambah ke pesanan

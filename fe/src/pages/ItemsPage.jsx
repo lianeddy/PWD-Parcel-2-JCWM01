@@ -98,35 +98,6 @@ function ItemsPage(props) {
         })  
     }
 
-    // const addLimitCart = (category, limit) => {
-    //     axios.get(`${API_URL}/cart/limit`, {
-    //         params: {
-    //             id_user: user.id_user,
-    //             id_product: props.match.params.id,
-    //             category: category,
-    //         }
-    //     })
-    //     .then((res) => {
-            // if (res.data.data.length < 1) {
-            //     axios.post(`${API_URL}/cart/addlimit`, {
-            //         id_user: user.id_user,
-            //         id_product: props.match.params.id,
-            //         category: category,
-            //         limit: limit
-            //     })
-            //     .then((res2) => {
-            //         console.log(res2);
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     })
-            // }
-        // })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     })
-    // }
-
     const renderItems = () => {
         return listItem.map((item, index) => {
             return (
