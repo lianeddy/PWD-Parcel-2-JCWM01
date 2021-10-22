@@ -5,8 +5,8 @@ const { mapCart } = require('../helper/mapping')
 module.exports =  {
     add: (req, res) => {
         let response
-        let {id_user, id_product, name_category, id_item, stock, status} = req.body
-        let scriptQuery = `insert into db_parcel.cart values (${db.escape(id_user)}, ${db.escape(id_product)}, ${db.escape(name_category)}, ${db.escape(id_item)}, ${db.escape(status)}, '-');`
+        let {id_user: idUser, id_product: idProduct, name_category: nameCategory, id_item: idItem, stock, status} = req.body
+        let scriptQuery = `insert into db_parcel.cart values (${db.escape(idUser)}, ${db.escape(idProduct)}, ${db.escape(nameCategory)}, ${db.escape(idItem)}, ${db.escape(status)}, '-');`
 
         db.query(scriptQuery, (err, result) => {
             if (err) {
@@ -17,7 +17,7 @@ module.exports =  {
             if (result) {
                 let changeStock = `update db_parcel.stocks
                     set amount = ${db.escape(stock)}
-                    where id_item = ${db.escape(id_item)};`
+                    where id_item = ${db.escape(idItem)};`
 
                 db.query(changeStock, (err2, result2) => {
                     if (err2) {
@@ -73,8 +73,8 @@ module.exports =  {
     },
     remove: (req, res) => {
         let response
-        let {id_item, id_user, stock} = req.body
-        let scriptQuery = `delete from db_parcel.cart where id_item = ${db.escape(id_item)} and id_user = ${db.escape(id_user)};`
+        let {id_item: idItem, id_user: idUser, stock} = req.body
+        let scriptQuery = `delete from db_parcel.cart where id_item = ${db.escape(idItem)} and id_user = ${db.escape(idUser)};`
 
         db.query(scriptQuery, (err, result) => {
             if (err) {
@@ -85,7 +85,7 @@ module.exports =  {
             if (result) {
                 let changeStock = `update db_parcel.stocks
                     set amount = ${db.escape(stock)}
-                    where id_item = ${db.escape(id_item)};`
+                    where id_item = ${db.escape(idItem)};`
 
                 db.query(changeStock, (err2, result2) => {
                     if (err2) {
@@ -100,9 +100,9 @@ module.exports =  {
         })
     },
     countCategory: (req, res) => {
-        let {id_user, id_product, name_category} = req.query
+        let {id_user: idUser, id_product: idProduct, name_category: nameCategory} = req.query
         let scriptQuery = `select count(*) as jumlah from db_parcel.cart
-            where id_user = ${id_user} and id_product = ${id_product} and name_category = ${db.escape(name_category)} and status = 'selected';`
+            where id_user = ${idUser} and id_product = ${idProduct} and name_category = ${db.escape(nameCategory)} and status = 'selected';`
 
         db.query(scriptQuery, (err, result) => {
             if (err) {

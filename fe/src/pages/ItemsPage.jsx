@@ -132,8 +132,6 @@ function ItemsPage(props) {
             }
         })
         .then((res) => {
-            console.log("Cart:");
-            console.log(res.data.data);
             dispatch({
                 type: "DATA_CART",
                 payload: res.data.data
@@ -185,7 +183,8 @@ function ItemsPage(props) {
                     <Cart
                         product={product}
                         render={renderLimit}
-                        change={change}  
+                        change={change} 
+                        idProduct={props.match.params.id} 
                     />
                 </div>
                 <div className="col-9">

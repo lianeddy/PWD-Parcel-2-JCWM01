@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import axios from 'axios'
 import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
@@ -9,6 +11,8 @@ import Headerku from '../components/Headerku'
 
 
 const ProductsPage = () => {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.data)
     const [productList, setProductList] = useState([]);
 
     const fetchProducts = () => {
@@ -20,6 +24,25 @@ const ProductsPage = () => {
         .catch((err) => {
             console.log(`Error fetch Products : ${err}`);
         })  
+    }
+
+    const fetchCartProduct = () => {
+        axios.get(`${API_URL}/cart/product`, {
+            params: {
+                id_user: user.id_user,
+            }
+        })
+        .then((res) => {
+            console.log("Cart:");
+            console.log(res.data.data);
+            dispatch({
+                type: "DATA_CART_PRODUCT",
+                payload: res.data.data
+            })
+        })
+        .catch((err) => {
+            console.log(`Error get Cart Product: ${err}`);
+        })
     }
 
     const renderProducts = () => {
@@ -40,6 +63,7 @@ const ProductsPage = () => {
 
     useEffect(() => {
         fetchProducts()
+        fetchCartProduct()
     }, [])
 
     return (
