@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     form: {
-        width: '100%', 
+        width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -34,26 +34,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ResetPassword = (props) => {
-    console.log(props.match.params.token);
+const ResetPasswordAfterLogin = () => {
+    const token = localStorage.getItem("token");
 
 
     const [authlogin, setauthlogin] = useState(false);
     const classes = useStyles();
-    const [input, setInput] = useState({ email: "", password: "" });
+    const [input, setInput] = useState({ email: "", curpassword: "", password: "" });
 
     const history = useHistory();
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const decoded = jwt_decode(props.match.params.token);
-        axios.put(`${API_URL}/user/reset`, {
+        const decoded = jwt_decode(token);
+        axios.put(`${API_URL}/user/resetafterlogin`, {
             email: decoded.email,
-            password: input.password
+            curpassword: input.curpassword,
+            newpassword: input.password
         })
             .then(res => {
-                alert("reset password success");
-                window.location.href = "/login";
+                alert("change password success");
+                window.location.href = "/";
             })
             .catch(err => {
                 alert('gagal');
@@ -64,6 +65,10 @@ const ResetPassword = (props) => {
         let value = event.target.value
         let name = event.target.name
         switch (name) {
+            case "curpassword": {
+                setInput({ ...input, curpassword: value })
+                break;
+            }
             case "password": {
                 setInput({ ...input, password: value })
                 break;
@@ -87,14 +92,22 @@ const ResetPassword = (props) => {
                     </div>
 
                     <Form className={classes.form} onSubmit={handleSubmit}>
-
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Current Password</Form.Label>
+                            <Form.Control type="password" placeholder="Current Password" onChange={handleChange}
+                                name="curpassword"
+                                label="Current Password"
+                                type="password"
+                                autoComplete="current-password"
+                                value={input.curpassword} />
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>New Password</Form.Label>
                             <Form.Control type="password" placeholder="Password" onChange={handleChange}
                                 name="password"
                                 label="Password"
                                 type="password"
-                                autoComplete="current-password"
+                                autoComplete="password"
                                 value={input.password} />
                         </Form.Group>
                         <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#F4CBDD", color: "white", marginBottom: "10px" }}>RESET</Button>
@@ -105,4 +118,4 @@ const ResetPassword = (props) => {
     );
 };
 
-export default ResetPassword;
+export default ResetPasswordAfterLogin; 

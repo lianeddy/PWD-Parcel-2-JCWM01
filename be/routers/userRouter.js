@@ -10,5 +10,6 @@ routers.post('/sharereset', userController.share);
 routers.put('/updateprofile', userController.updateProfile);
 routers.put('/updateprofileimage', userController.updateProfilImage);
 routers.post('/getUser', userController.getUser);
+routers.put('/resetafterlogin', userController.resetAfterLogin);
 
 module.exports = routers

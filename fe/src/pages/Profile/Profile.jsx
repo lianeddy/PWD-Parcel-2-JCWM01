@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { API_URL } from '../../constants/API';
 import jwt_decode from 'jwt-decode';
 
-
 const useStyles = makeStyles((theme) => ({
     paper: {
         display: 'flex',
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%', 
         marginTop: theme.spacing(3),
     },
     submit: {
@@ -34,9 +33,9 @@ const Profile = () => {
     const [img, setimg] = useState(null);
     let decoded;
     let user;
+    const token = localStorage.getItem("token");
     useEffect(() => {
         const token = localStorage.getItem("token");
-        // Decode token to get user data
         decoded = jwt_decode(token);
         console.log(decoded.email);
         axios.post(`${API_URL}/user/getUser`, {
@@ -77,7 +76,6 @@ const Profile = () => {
                 .then(res => {
                     console.log(res);
                     alert("update profile success");
-                    // window.location.href = "/";
                     window.location.reload();
                 })
                 .catch(err => {
@@ -93,8 +91,7 @@ const Profile = () => {
             })
                 .then(res => {
                     console.log(res);
-                    alert("update profile success");
-                    // window.location.href = "/";
+                    alert("update profile berhasil");
                     window.location.reload();
                 })
                 .catch(err => {
@@ -179,17 +176,13 @@ const Profile = () => {
                                     label="age"
                                     value={input.age} />
                             </Form.Group>
-                            <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#F4CBDD", color: "white", marginBottom: "10px" }}>UPDATE</Button>
+                            <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#F4CBDD", color: "white", marginBottom: "10px", marginRight: "20px" }}>UPDATE</Button>
+                            <a href={`./resetpassword`} variant="body2">
+                                {"change  password ?"}
+                                </a>
                         </form>
                     </Grid>
                 </Grid>
-                {/* </Hidden>
-                <Hidden mdUp>
-                    <div style={{ marginLeft: "10px", marginTop: "40px" }}>
-                    </div>
-                </Hidden> */}
-
-
             </div>
         </div >
     );
