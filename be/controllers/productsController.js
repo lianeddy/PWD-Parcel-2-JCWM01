@@ -38,5 +38,32 @@ module.exports = {
 
             res.status(200).send(hasil)
         })
-    },    
+    },  
+    
+    getProfit: (req, res) => {
+        let priceProduct;
+        let item1;
+        let item2;
+        let scriptQuery = `SELECT * FROM products where id = ${req.body.id};`
+    
+        db.query(scriptQuery, (err, results) => {
+            if (err) res.status(500).send(err)
+            priceProduct = results[0].price;
+            let item1query = `SELECT * FROM items where id = 1;`
+    
+            db.query(item1query, (err, results) => {
+                if (err) res.status(500).send(err)
+                item1 = results[0].price;
+                let item2query = `SELECT * FROM items where id = 2;`
+    
+                db.query(item2query, (err, results) => {
+                    if (err) res.status(500).send(err)
+                    item2 = results[0].price;
+                    let harga = priceProduct - item1 - item2;
+                    res.status(200).send(String(harga));
+                })
+            })
+        })
+    
+    }
 }
