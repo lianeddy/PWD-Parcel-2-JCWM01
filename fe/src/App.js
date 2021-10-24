@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route component={ProductsPage} path="/products" />
+        <Route component={ProductsPage} path="/products"/>
         <Route component={ItemsPage} path="/items/:id" />
         <Route component={CartProduct} path="/cart-product" />
       </Switch>

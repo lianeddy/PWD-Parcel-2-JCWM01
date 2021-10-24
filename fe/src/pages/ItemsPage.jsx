@@ -25,10 +25,6 @@ function ItemsPage(props) {
         sortBy: "",
     })
 
-    // const limitCategory = () => {
-
-    // }
-
     const change = () => {
         setIsChange(!isChange)
     }

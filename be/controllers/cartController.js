@@ -131,6 +131,59 @@ module.exports =  {
             response = responses("Sukses tambah ke pesanan", 200, result)
             res.status(200).send(response)
         })
+      },
+      editCart: (req, res) => {
+          let response
+          let {id_user: idUser, id_cart: idCart} = req.body
+          
+        let scriptQuery = `update db_parcel.cart
+            set status = 'selected'
+            where id_user = ${db.escape(idUser)} and id_cart = ${db.escape(idCart)};`
+      
+        db.query(scriptQuery, (err, result) => {
+            if (err) {
+                response = responses("Error!", 500, err)
+                res.status(500).send(response)
+            } 
+      
+            response = responses("Sukses edit pesanan", 200, result)
+            res.status(200).send(response)
+        })
+      },
+      delete: (req, res) => {
+        let response
+        let {id_user: idUser, id_cart: idCart} = req.query
+
+        let scriptQuery = `delete from db_parcel.cart 
+            where id_user = ${db.escape(idUser)} and id_cart = ${db.escape(idCart)};`
+
+        db.query(scriptQuery, (err, result) => {
+            if (err) {
+                response = responses("Error!", 500, err)
+                res.status(500).send(response)
+            } 
+      
+            response = responses("Sukses delete dari cart", 200, result)
+            res.status(200).send(response)
+        })
+      },
+      returnStock: (req, res) => {
+        let response
+        let {stock, id_item:idItem} = req.body
+
+        let scriptQuery = `update db_parcel.stocks
+                    set amount = ${db.escape(stock)}
+                    where id_item = ${db.escape(idItem)};`
+
+        db.query(scriptQuery, (err, result) => {
+            if (err) {
+                response = responses("Error!", 500, err)
+                res.status(500).send(response)
+            } 
+        
+            response = responses("Sukses return stock", 200, result)
+            res.status(200).send(response)
+        })
       }
 }
 

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react'
-import {useSelector} from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 import Fade from "react-reveal/Fade";
 import {API_URL} from '../constants/API'
@@ -9,10 +8,12 @@ import IDR from '../helper/currency'
 import '../assets/styles/cart.css'
 
 function Cart(props) {
-    let history = useHistory();
+    let dispatch = useDispatch()
     const stockItems = useSelector(state => state.stock.stockItems)
     const user = useSelector(state => state.user.data)
     const cart = useSelector(state => state.cart.itemList)
+    const limitCategory = useSelector(state => state.limitCategory.limit)
+    const [limit, setLimit] = useState(0)
     const [isRefresh, setIsRefresh] = useState(false)
 
     const refresh = () => {
@@ -27,7 +28,7 @@ function Cart(props) {
             id_user: user.id_user,
             stock: item.amount + 1
         })
-        .then((res) => {
+        .then(() => {
             props.change()
             refresh()
         })
@@ -57,23 +58,53 @@ function Cart(props) {
         }
     }
 
-    const addOrder = () => {
-        console.log(user.id_user);
-        console.log(props.idProduct);
-        axios.patch(`${API_URL}/cart/addorder`, {
-            id_user: user.id_user,
-            id_product: props.idProduct
+    const fetchCartProduct = () => {
+        axios.get(`${API_URL}/cart/product`, {
+            params: {
+                id_user: user.id_user,
+            }
         })
         .then((res) => {
-            console.log(res.data);
-            history.push("/cart-product");
+            console.log("Cart:");
+            console.log(res.data.data);
+            dispatch({
+                type: "DATA_CART_PRODUCT",
+                payload: res.data.data
+            })
+            alert("Product berhasil ditambahkan ke daftar pesanan")
         })
         .catch((err) => {
-            console.log(err);
+            console.log(`Error get Cart Product: ${err}`);
         })
     }
 
+    const addOrder = () => {
+        if (cart.length < limit) {
+            alert("Product yang dipilih masih kurang")
+        } else {
+            axios.patch(`${API_URL}/cart/addorder`, {
+                id_user: user.id_user,
+                id_product: props.idProduct
+            })
+            .then((res) => {
+                fetchCartProduct()
+                refresh()
+                props.change()
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+    }
+
+    const countLimit = () => {
+        let count = 0
+        limitCategory.forEach((item) => count += item.limit)
+        setLimit(count)
+    }
+
     useEffect(() => {
+        countLimit()
     }, [isRefresh])
 
     return (
@@ -91,6 +122,7 @@ function Cart(props) {
             </Fade>
             {cart.length 
                 ? <button 
+                    // disabled={cart.length < limit ? true : false}
                     onClick= {() => addOrder()}
                     className="addToCart">
                         Tambah ke pesanan
