@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import AdminSidebar from "../components/adminSidebar";
 import ModalAdd from "../components/addItemButton";
 import Axios from "axios";
+import Navbarku from "../components/Navbarku"
 
 class ProductAdminPanel extends React.Component {
   constructor(props) {
@@ -183,6 +184,11 @@ class ProductAdminPanel extends React.Component {
   render() {
     return (
       <div className="container-fluid">
+         <div className="row">
+            <div className="col-12">
+                <Navbarku />
+            </div>
+        </div>
         <div className="row">
           <div className="col-2">
             <AdminSidebar />

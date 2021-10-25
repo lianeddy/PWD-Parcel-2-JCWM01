@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { API_URL } from '../constants/API';
+import Navbarku from '../components/Navbarku'
 
 const listparcel = () => {
     const handleDetail = (idp) => {
@@ -45,6 +46,7 @@ const listparcel = () => {
     }
     return (
         <div>
+             <Navbarku />
             <Table striped bordered hover>
                 <thead>
                     <tr>

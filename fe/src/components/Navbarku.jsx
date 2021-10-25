@@ -42,17 +42,17 @@ function Navbarku() {
     }
 
     const handleAdmin = () => {
-        window.location.href = "/admin"
+        window.location.href = "/Productadmin"
     }
 
 
     return (
         <div className="navbar" >
-            <navbar className="container">
-                <Link to="/products">
+            <navbar className="container-fluid">
+                <Link to="/">
                     <div className="brand">
                         <img src={logo} alt="logo" />
-                        <p>parcelio</p>
+                        <p>parselio</p>
                     </div>
                 </Link>
                 <div className="nav-right">

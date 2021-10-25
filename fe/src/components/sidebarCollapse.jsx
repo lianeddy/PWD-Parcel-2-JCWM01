@@ -11,7 +11,7 @@ const SidebarCollapse = (props) => {
     <div>
       <div className= "mt-3" onClick={toggle}>+  Product Management</div>
       <Collapse isOpen={isOpen}>
-        <NavLink>Item</NavLink>
+        <NavLink href="/Productadmin">Item</NavLink>
         <NavLink>Parcel</NavLink>
       </Collapse>
     </div>
@@ -27,7 +27,7 @@ export const SidebarCollapse2 = (props) => {
     <div>
       <div className= "mt-3" onClick={toggle}>+  Sales Management</div>
       <Collapse isOpen={isOpen}>
-        <NavLink>Revenue</NavLink>
+        <NavLink href="/parcel">Revenue</NavLink>
         <NavLink>Transaction</NavLink>
       </Collapse>
     </div>

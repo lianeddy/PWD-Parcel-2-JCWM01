@@ -60,7 +60,6 @@ const Login = () => {
                             const { token } = res.data;
                             localStorage.setItem("token", token);
                             const decoded = jwt_decode(token);
-                            //localStorage.setItem("email", decoded.email);
                             history.push("/");
                             if (res.data.length === 0) {
                                 alert("username atau password anda salah");

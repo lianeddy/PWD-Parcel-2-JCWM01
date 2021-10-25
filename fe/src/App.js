@@ -31,8 +31,8 @@ class App extends Component {
           <Route exact component={InputEmail} path="/email" />
           <Route exact component={Profile} path="/profile" />
           <Route exact component={listparcel} path="/parcel" />
-          <Route component={CartProduct} path="/cart-product" />
-          <Route component={ProductAdmin} path="/productadmin" />
+          <Route exact component={CartProduct} path="/cart-product" />
+          <Route exact component={ProductAdmin} path="/productadmin" />
           <Route exact component={ResetPasswordAfterLogin} path="/resetpassword" />
           <Route exact component={AdminPage} path="/admin" />
         </Switch>
