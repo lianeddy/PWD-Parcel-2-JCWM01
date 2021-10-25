@@ -134,6 +134,36 @@ module.exports = {
             })
         });
     },
+    resetAfterLogin: (req, res) => {
+        let scriptQuery = `select * from users where email = '${req.body.email}';`
+
+        db.query(scriptQuery, (err, results) => {
+            if (results.length === 0) {
+                return res.status(200).send("notfound");
+            }
+            if (results[0].isverified === 0) {
+                return res.status(200).send("notactive");
+            }
+            bcrypt.compare(req.body.curpassword, results[0].password).then((isMatch) => {
+                if (isMatch) {
+                    newPassword = '';
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(req.body.newpassword, salt, (err, hash) => {
+                            if (err) throw err;
+                            newPassword = hash;
+                            let scriptQuery = `update users set password = '${newPassword}' where email = '${req.body.email}';`
+                            db.query(scriptQuery, (err, results) => {
+                                if (err) res.status(500).send(err)
+                                res.status(200).send(results)
+                            })
+                        })
+                    });
+                } else {
+                    return res.status(200).send("notmatch");
+                }
+            })
+        })
+    },
     share: (req, res) => {
         var payload = {
             email: req.body.email,
