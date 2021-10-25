@@ -92,7 +92,7 @@ module.exports = {
                 if (isMatch) {
                     var payload = {
                         email: req.body.email,
-                        
+                        isadmin: results[0].isadmin
                     }
                     jwt.sign(
                         payload,
