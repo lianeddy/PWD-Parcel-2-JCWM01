@@ -7,6 +7,7 @@ import { Button, Form, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../constants/API';
 import jwt_decode from 'jwt-decode';
+import Navbarku from '../../components/Navbarku';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -132,6 +133,7 @@ const Profile = () => {
     }
     return (
         <div>
+            <Navbarku />
             <div style={{ height: "500px", marginInline: "10%" }}>
                 {/* <Hidden smDown> */}
                 <Grid container spacing={3}>
@@ -179,9 +181,9 @@ const Profile = () => {
                                     value={input.age} />
                             </Form.Group>
                             <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#F4CBDD", color: "white", marginBottom: "10px", marginRight: "20px" }}>UPDATE</Button>
-                            <a href={`./resetpassword`} variant="body2">
+                            {/*<a href={`./resetpassword`} variant="body2">
                                 {"change  password ?"}
-                            </a>
+                            </a>*/}
                         </form>
                     </Grid>
                 </Grid>

@@ -44,9 +44,9 @@ app.get('/', (req, res) => {
 const { productsRouter, itemsRouter, userRouter, cartRouter, adminItemsRouter } = require('./routers')
 
 app.use('/products', productsRouter)
-app.use('/items', itemsRouter)
+//app.use('/items', itemsRouter)
 app.use('/user', userRouter)
-app.use('/cart', cartRouter)
-app.use('/adminitems', adminItemsRouter)
+//app.use('/cart', cartRouter)
+//app.use('/adminitems', adminItemsRouter)
 
 app.listen(PORT, () => console.log('Api Running :', PORT));

@@ -55,12 +55,12 @@ const Login = () => {
                         alert("you must activate your account");
                     } else {
                         if (res.data === "notmatch") {
-                            alert("password wrong");
+                            alert("password salah");
                         } else {
                             const { token } = res.data;
                             localStorage.setItem("token", token);
                             const decoded = jwt_decode(token);
-                            localStorage.setItem("email", decoded.email);
+                            //localStorage.setItem("email", decoded.email);
                             history.push("/");
                             if (res.data.length === 0) {
                                 alert("username atau password anda salah");

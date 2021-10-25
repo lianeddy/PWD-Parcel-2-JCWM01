@@ -13,14 +13,17 @@ import Profile from './pages/Profile/Profile';
 import listparcel from './pages/listparcel';
 import ProductAdmin from './pages/productAdminPanel';
 import ResetPasswordAfterLogin from './pages/Auth/ResetPassword/ResetPasswordAfterLogin';
+import Home from './pages/Home/Home';
+import AdminPage from './pages/AdminPage/AdminPage';
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <Switch>
-          <Route component={ProductsPage} path="/products" />
-          <Route component={ItemsPage} path="/items/:index" />
+          <Route exact component={Home} path="/" />
+          <Route exact component={ProductsPage} path="/products" />
+          <Route exact component={ItemsPage} path="/items/:index" />
           <Route exact component={Login} path="/login" />
           <Route exact component={Register} path="/register" />
           <Route exact component={Verifikasi} path="/verifikasi/:token" />
@@ -31,7 +34,7 @@ class App extends Component {
           <Route component={CartProduct} path="/cart-product" />
           <Route component={ProductAdmin} path="/productadmin" />
           <Route exact component={ResetPasswordAfterLogin} path="/resetpassword" />
-          
+          <Route exact component={AdminPage} path="/admin" />
         </Switch>
       </BrowserRouter>
     )

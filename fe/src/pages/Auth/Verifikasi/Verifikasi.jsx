@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { API_URL } from '../../../constants/API';
 
 const Verifikasi = (props) => {
     console.log(props.match.params.token);
     const decoded = jwt_decode(props.match.params.token);
-    axios.put('http://localhost:8080/user/verified', {
+    axios.put(`${API_URL}/user/verified`, {
         email: decoded.email
     })
         .then(res => {
