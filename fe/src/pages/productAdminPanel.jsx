@@ -3,6 +3,7 @@ import { Table, Button, ButtonGroup, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import AdminSidebar from "../components/adminSidebar";
 import ModalAdd from "../components/addItemButton";
+import Navbarku from "../components/Navbarku"
 import Axios from "axios";
 
 class ProductAdminPanel extends React.Component {
@@ -183,6 +184,11 @@ class ProductAdminPanel extends React.Component {
   render() {
     return (
       <div className="container-fluid">
+        <div className="row">
+            <div className="col-12">
+                <Navbarku />
+            </div>
+        </div>
         <div className="row">
           <div className="col-2">
             <AdminSidebar />

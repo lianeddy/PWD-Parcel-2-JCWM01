@@ -11,11 +11,11 @@ function Navbarku() {
     const cartProduct = useSelector(state => state.cartProduct.productList)
     return (
         <div className="navbar" >
-            <navbar className="container">
+            <navbar className="container-fluid">
                     <Link to="/products">
                         <div className="brand">
                             <img src={logo} alt="logo" />
-                            <p>parcelio</p>
+                            <p>parselio</p>
                         </div>
                     </Link>
                     <div className="nav-right">

@@ -1,8 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const multer = require('multer');
-const PORT = 3300
-//8080
+const PORT = 8080
+const PORT2 = 3300
 const app = express()
 
 const fileStorage = multer.diskStorage({
@@ -47,6 +47,9 @@ app.use('/products', productsRouter)
 app.use('/items', itemsRouter)
 app.use('/user', userRouter)
 app.use('/cart', cartRouter)
-app.use('/adminitems', adminItemsRouter)
 
 app.listen(PORT, () => console.log('Api Running :', PORT));
+
+app.use('/adminitems', adminItemsRouter)
+
+app.listen(PORT2, () => console.log('Api Running :', PORT2));
