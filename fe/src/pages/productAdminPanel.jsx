@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Button, ButtonGroup, Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import AdminSidebar from "../components/adminSidebar";
-import ModalAdd from "../components/addItemButtoB";
+import ModalAdd from "../components/addItemButton";
 import Axios from "axios";
 
 class ProductAdminPanel extends React.Component {
@@ -34,7 +34,7 @@ class ProductAdminPanel extends React.Component {
   };
 
   getData = () => {
-    Axios.get(`http://localhost:3300/item/getitem`)
+    Axios.get(`http://localhost:3300/adminitems/getitem`)
       .then((res) => {
         this.setState({
           maxPage: Math.ceil(res.data.length / this.state.itemPerPage),
@@ -46,7 +46,7 @@ class ProductAdminPanel extends React.Component {
   };
 
   getPage = () => {
-    Axios.get(`http://localhost:3300/item/page/${this.state.beginningIndex},${this.state.itemPerPage}`)
+    Axios.get(`http://localhost:3300/adminitems/page/${this.state.beginningIndex},${this.state.itemPerPage}`)
       .then((res) => {
         this.setState({
           dbItem: res.data,
@@ -76,7 +76,7 @@ class ProductAdminPanel extends React.Component {
   };
 
   saveToggle = () => {
-    Axios.patch(`http://localhost:3300/item/edititem/${this.state.editId}`, {
+    Axios.patch(`http://localhost:3300/adminitems/edititem/${this.state.editId}`, {
       name_item: this.state.editNameItem,
       price_item: this.state.editPriceItem,
       id_category: this.state.editIdCategory,
@@ -93,7 +93,7 @@ class ProductAdminPanel extends React.Component {
   };
 
   deleteToggle = (deleteId) => {
-    Axios.delete(`http://localhost:3300/item/deletedata/${deleteId}`)
+    Axios.delete(`http://localhost:3300/adminitems/deletedata/${deleteId}`)
       .then(() => {
         this.getData();
       })
@@ -134,13 +134,13 @@ class ProductAdminPanel extends React.Component {
         )
       }
 
-      if (val.id_category == 1) {
+      if (val.id_category === 1) {
         val.id_category = "Coklat";
       }
-      if (val.id_category == 2) {
+      if (val.id_category === 2) {
         val.id_category = "Snack";
       }
-      if (val.id_category == 3) {
+      if (val.id_category === 3) {
         val.id_category = "Minuman";
       }
 
@@ -188,7 +188,7 @@ class ProductAdminPanel extends React.Component {
             <AdminSidebar />
           </div>
           <div className="col-10">
-            <div className="title text-left p-3 jarak mt-2">
+            <div className="titled text-left p-3 jarak mt-2">
               Product Management / <strong>Item</strong>
             </div>
             <div className="jarak mt-2">

@@ -11,6 +11,7 @@ import Verifikasi from './pages/Auth/Verifikasi/Verifikasi';
 import InputEmail from './pages/Auth/ResetPassword/InputEmail';
 import Profile from './pages/Profile/Profile';
 import listparcel from './pages/listparcel';
+import ProductAdmin from './pages/productAdminPanel';
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
           <Route exact component={Profile} path="/profile" />
           <Route exact component={listparcel} path="/parcel" />
           <Route component={CartProduct} path="/cart-product" />
+          <Route component={ProductAdmin} path="/productadmin" />
         </Switch>
       </BrowserRouter>
     )

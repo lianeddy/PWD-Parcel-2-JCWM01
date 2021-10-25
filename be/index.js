@@ -1,7 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const multer = require('multer');
-const PORT = 8080
+const PORT = 3300
+//8080
 const app = express()
 
 const fileStorage = multer.diskStorage({
@@ -40,11 +41,12 @@ app.get('/', (req, res) => {
     res.status(200).send('<h4>Welcome to dev-mysql-api</h4>')
 })
 
-const { productsRouter, itemsRouter, userRouter, cartRouter } = require('./routers')
+const { productsRouter, itemsRouter, userRouter, cartRouter, adminItemsRouter } = require('./routers')
 
 app.use('/products', productsRouter)
 app.use('/items', itemsRouter)
 app.use('/user', userRouter)
 app.use('/cart', cartRouter)
+app.use('/adminitems', adminItemsRouter)
 
 app.listen(PORT, () => console.log('Api Running :', PORT));
